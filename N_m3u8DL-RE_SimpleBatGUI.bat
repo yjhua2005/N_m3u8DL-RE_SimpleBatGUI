@@ -1,73 +1,81 @@
-::¼ÇµÃ±£´æÎªASNI±àÂë
+::è®°å¾—ä¿å­˜ä¸ºASNIç¼–ç 
 
 @echo off & setlocal enabledelayedexpansion
 
-::¿ªÊ¼
-Title N_m3u8DL-REÏÂÔØµ÷ÓÃ by Lenno 2023.7.31
+::å¼€å§‹
+Title N_m3u8DL-REä¸‹è½½è°ƒç”¨ by Lenno 2023.7.31ç»è¿‡ä¿®æ”¹
 
+::ç•Œé¢é¢œè‰²å¤§å°ï¼ŒColsä¸ºå®½ï¼ŒLinesä¸ºé«˜
+::0é»‘è‰²1è“è‰²2ç»¿è‰²3æµ…ç»¿è‰²4çº¢è‰²5ç´«è‰²6é»„è‰²7ç™½è‰²8ç°è‰²9æ·¡è“è‰²
+::Aæ·¡ç»¿è‰²Bæ·¡æµ…ç»¿è‰²Cæ·¡çº¢è‰²Dæ·¡ç´«è‰²Eæ·¡é»„è‰²Fäº®ç™½è‰²
+mode con cols=80 lines=200
+color 0a
+::cls
+
+::åˆ‡æ¢å›å½“å‰ç›®å½•
 cd /d %~dp0
 
-::²Ëµ¥²¿·Ö
+::èœå•éƒ¨åˆ†
 :menu
-cls
+::cls
 ECHO.
-ECHO  ÏÂÔØÑ¡Ïî
+ECHO  ä¸‹è½½é€‰é¡¹
 echo.                   
-ECHO. **********************************************************
+ECHO. ***********************************************************
+echo. *                                                         *
+ECHO  *         1ã€m3u8è§†é¢‘å•ä¸ªä¸‹è½½                             *
+echo. *                                                         *
+ECHO  *         2ã€m3u8è§†é¢‘æ‰¹é‡ä¸‹è½½(å…ˆè®¾ç½®å¥½input.txt)          *
+echo. *                                                         *
+ECHO  *         3ã€ç›´æ’­å½•åˆ¶                                     *
+echo. *                                                         *
+ECHO. ***********************************************************
 echo.
-ECHO  1¡¢m3u8ÊÓÆµµ¥¸öÏÂÔØ
-echo.
-ECHO  2¡¢m3u8ÊÓÆµÅúÁ¿ÏÂÔØ
-echo.
-ECHO  3¡¢Ö±²¥Â¼ÖÆ
-echo.
-ECHO. **********************************************************
-echo.
-set /p a=ÇëÊäÈë²Ù×÷ĞòºÅ²¢»Ø³µ£¨1¡¢2¡¢3£©£º
-cls
+set /p a=è¯·è¾“å…¥æ“ä½œåºå·å¹¶å›è½¦è¾“å…¥2å›è½¦ç›´æ¥è¿›å…¥ä¸‹è½½ï¼ˆ1ã€2ã€3ï¼‰ï¼š
+::cls
 
 if %a%==1 goto m3u8_download
 if %a%==2 goto m3u8_batch_download
 if %a%==3 goto live_record
 
-::---------------ÉèÖÃ²¿·Östart---------------
+::---------------è®¾ç½®éƒ¨åˆ†start---------------
 :setting_path
-::ÉèÖÃÁÙÊ±ÎÄ¼ş´æ´¢Ä¿Â¼
-set TempDir=D:\Downloads\New\N_m3u8DL_Temp
+::è®¾ç½®ä¸´æ—¶æ–‡ä»¶å­˜å‚¨ç›®å½•
+set TempDir=./Downloads/
 
-::ÉèÖÃÊä³öÄ¿Â¼
-set SaveDir=D:\Downloads\New
+::è®¾ç½®è¾“å‡ºç›®å½•
+set SaveDir=./Downloads
 
-::ÉèÖÃffmpeg.exeÂ·½¡£´ÓÅú´¦ÀíËùÔÚÎÄ¼ş¼Ğµ½Program Files¹²3²ã¡£
+::è®¾ç½®ffmpeg.exeè·¯å¾‘ã€‚ä»æ‰¹å¤„ç†æ‰€åœ¨æ–‡ä»¶å¤¹åˆ°Program Fileså…±3å±‚ã€‚
 set ffmpeg=ffmpeg.exe
 
-::ÉèÖÃÊäÈëÎÄ¼şinput.txt£¬ºÍÊä³öµÄÅúÁ¿ÏÂÔØÅú´¦Àíoutput.bat
-::input.txt¸ñÊ½Îª Òª±£´æµÄÎÄ¼şÃû,m3u8ÏÂÔØÁ´½Ó
-::inputÊ¾Àı
-::Ö©ÖëÏÀ1,http://xx.xx.m3u8
-::Ö©ÖëÏÀ2,http://xx.xx.m3u8
+::è®¾ç½®è¾“å…¥æ–‡ä»¶input.txtï¼Œå’Œè¾“å‡ºçš„æ‰¹é‡ä¸‹è½½æ‰¹å¤„ç†output.bat
+::input.txtæ ¼å¼ä¸º è¦ä¿å­˜çš„æ–‡ä»¶å,m3u8ä¸‹è½½é“¾æ¥
+::inputç¤ºä¾‹
+::èœ˜è››ä¾ 1,http://xx.xx.m3u8
+::èœ˜è››ä¾ 2,http://xx.xx.m3u8
 set input=input.txt
 set output=output.bat
 goto :eof
 
 
 :setting_m3u8_params
-::ÉèÖÃm3u8ÏÂÔØ²ÎÊı
-set m3u8_params=--download-retry-count:9 --auto-select:true --check-segments-count:false --no-log:true --append-url-params:true -mt:true --mp4-real-time-decryption:true --ui-language:zh-CN
+::è®¾ç½®m3u8ä¸‹è½½å‚æ•°
+set m3u8_params=--download-retry-count:9 --log-level "INFO" --auto-select:true --check-segments-count:true --no-log:False --append-url-params:true -mt:true --mp4-real-time-decryption:true --ui-language:zh-CN --binary-merge:true --del-after-done:false --write-meta-json:true
 
 goto :eof
 
 
 :setting_live_record_params
-::ÉèÖÃÖ±²¥Â¼ÖÆ²ÎÊı
-set live_record_params=--no-log:true -mt:true --mp4-real-time-decryption:true --ui-language:zh-CN -sv best -sa best --live-pipe-mux:true --live-keep-segments:false --live-fix-vtt-by-audio:true %live_record_limit% -M format=mp4:bin_path="%ffmpeg%"
+::è®¾ç½®ç›´æ’­å½•åˆ¶å‚æ•°
+set live_record_params=--no-log:False -mt:true --mp4-real-time-decryption:true --ui-language:zh-CN -sv best -sa best --live-pipe-mux:true --live-keep-segments:false --live-fix-vtt-by-audio:true %live_record_limit% -M format=mp4:bin_path="%ffmpeg%"
 
 goto :eof
-::---------------ÉèÖÃ²¿·Öend---------------
+::---------------è®¾ç½®éƒ¨åˆ†end---------------
 
-::¿ªÊ¼ÏÂÔØ
+::å¼€å§‹ä¸‹è½½
 :m3u8_download
-cls
+::cls
 call :common_input
 call :setting_path
 call :setting_m3u8_params
@@ -77,7 +85,7 @@ call :when_done
 goto :eof
 
 :m3u8_batch_download
-cls
+::cls
 call :setting_path
 call :batch_input
 call :setting_m3u8_params
@@ -96,53 +104,53 @@ call :when_done
 goto :eof
 
 
-::---------------ÊäÈë²¿·Ö---------------
+::---------------è¾“å…¥éƒ¨åˆ†---------------
 :common_input
-::ÊäÈëÁ´½Ó ºÍ ÎÄ¼şÃû
+::è¾“å…¥é“¾æ¥ å’Œ æ–‡ä»¶å
 :set_link
 set "link="
-set /p "link=ÇëÊäÈëÁ´½Ó: "
+set /p "link=è¯·è¾“å…¥é“¾æ¥: "
 if "!link!"=="" (
-    echo ´íÎó£ºÊäÈë²»ÄÜÎª¿Õ£¡
+    echo é”™è¯¯ï¼šè¾“å…¥ä¸èƒ½ä¸ºç©ºï¼
     goto set_link
 )
 
 :set_filename 
 set "filename="
-set /p "filename=ÇëÊäÈë±£´æÎÄ¼şÃû: "
+set /p "filename=è¯·è¾“å…¥ä¿å­˜æ–‡ä»¶å: "
 if "!filename!"=="" (
-    echo ´íÎó£ºÊäÈë²»ÄÜÎª¿Õ£¡
+    echo é”™è¯¯ï¼šè¾“å…¥ä¸èƒ½ä¸ºç©ºï¼
     goto set_filename
 )
 
-::×Ó±êÇ©ÖĞ¼ÓÉÏgoto :eofÃüÁî¼´¿ÉÍË³ö×Ó±êÇ©£¬²»¼ÌĞøÖ´ĞĞËüÏÂÃæµÄÆäËüÃüÁî
+::å­æ ‡ç­¾ä¸­åŠ ä¸Šgoto :eofå‘½ä»¤å³å¯é€€å‡ºå­æ ‡ç­¾ï¼Œä¸ç»§ç»­æ‰§è¡Œå®ƒä¸‹é¢çš„å…¶å®ƒå‘½ä»¤
 goto :eof
 
-::ÅúÁ¿ÏÂÔØ²¿·Ö
-::¶ÁÈ¡ÎÄ¼ş£¬ºÏ³É²ÎÊı£¬Ğ´ÈëĞÂÎÄ¼ş²¢Ö´ĞĞ
+::æ‰¹é‡ä¸‹è½½éƒ¨åˆ†
+::è¯»å–æ–‡ä»¶ï¼Œåˆæˆå‚æ•°ï¼Œå†™å…¥æ–°æ–‡ä»¶å¹¶æ‰§è¡Œ
 :batch_input
-::ÅúÁ¿ÏÂÔØµÄÊäÈëÊä³ö,Èç²»Éè¶¨£¬Ä¬ÈÏÎªµ±Ç°Ä¿Â¼µÄinput.txt£¬Êä³öoutput.bat
+::æ‰¹é‡ä¸‹è½½çš„è¾“å…¥è¾“å‡º,å¦‚ä¸è®¾å®šï¼Œé»˜è®¤ä¸ºå½“å‰ç›®å½•çš„input.txtï¼Œè¾“å‡ºoutput.bat
 :set_batchfile_input
 set "batchfile_input="
-set /p "batchfile_input=ÇëÊäÈëÅúÁ¿ÏÂÔØÎÄ¼şµÄÎÄ¼şÃû»òÍêÕûÂ·¾¶(**.txt,Áô¿ÕÈ·ÈÏÔòÄ¬ÈÏÉèÖÃ): "
+echo.set /p "batchfile_input=è¯·è¾“å…¥æ‰¹é‡ä¸‹è½½æ–‡ä»¶çš„æ–‡ä»¶åæˆ–å®Œæ•´è·¯å¾„(**.txt,ç•™ç©ºç¡®è®¤åˆ™é»˜è®¤è®¾ç½®): "
 if "!batchfile_input!" neq "" (
     set input=!batchfile_input!
 )
 :set_batchfile_output
 set "batchfile_output="
-set /p "batchfile_output=ÇëÊäÈëÊä³öÅúÁ¿ÏÂÔØµÄÎÄ¼şÃû(Áô¿ÕÈ·ÈÏÔòÄ¬ÈÏÉèÖÃ): "
+echo.set /p "batchfile_output=è¯·è¾“å…¥è¾“å‡ºæ‰¹é‡ä¸‹è½½çš„æ–‡ä»¶å(ç•™ç©ºç¡®è®¤åˆ™é»˜è®¤è®¾ç½®): "
 if "!batchfile_output!" neq "" (
     set output=!batchfile_output!.bat
 )
 goto :eof
 
 :batch_excute
-::Æ´½ÓÃüÁî
+::æ‹¼æ¥å‘½ä»¤
 set string2=--tmp-dir "%TempDir%" --save-dir "%SaveDir%" --ffmpeg-binary-path "%ffmpeg%" %m3u8_params%
-::Ô¤ÏÈÇåÀí¿ÉÄÜÖØÃûµÄÎÄ¼ş
-echo off>%output%
+::é¢„å…ˆæ¸…ç†å¯èƒ½é‡åçš„æ–‡ä»¶
+echo on>%output%
 
-::»ñÈ¡×ÜĞĞÊı=´ıÏÂÔØÈÎÎñÊı
+::è·å–æ€»è¡Œæ•°=å¾…ä¸‹è½½ä»»åŠ¡æ•°
 set /a count=0
 for /F "delims=" %%i in (%input%) do (
 	set /a count+=1	
@@ -159,15 +167,15 @@ for /F "tokens=1-2 delims=," %%a in (%input%) do (
 	echo !title! >> %output%
 	echo !outstring! >> %output%
 )
-::µ÷ÓÃÉú³ÉµÄÎÄ¼ş½øĞĞÏÂÔØ
-cls
+::è°ƒç”¨ç”Ÿæˆçš„æ–‡ä»¶è¿›è¡Œä¸‹è½½
+::cls
 call %output%
 goto :eof
 
 :live_record_input
 :set_record_limit
 set "record_limit="
-set /p "record_limit=ÇëÊäÈëÂ¼ÖÆÊ±³¤ÏŞÖÆ(¸ñÊ½£ºHH:mm:ss, ¿ÉÎª¿Õ): "
+set /p "record_limit=è¯·è¾“å…¥å½•åˆ¶æ—¶é•¿é™åˆ¶(æ ¼å¼ï¼šHH:mm:ss, å¯ä¸ºç©º): "
 if "!record_limit!"=="" (
     set live_record_limit=
 ) else (
@@ -176,51 +184,51 @@ if "!record_limit!"=="" (
 
 goto :eof
 
-::---------------²ÎÊıËµÃ÷---------------
-::--¸ü¶àÇë²Î¿¼×÷ÕßµÄÏîÄ¿ https://github.com/nilaoda/N_m3u8DL-RE
-::--tmp-dir <tmp-dir>                      ÉèÖÃÁÙÊ±ÎÄ¼ş´æ´¢Ä¿Â¼
-::--save-name <save-name>                  ÉèÖÃ±£´æÎÄ¼şÃû
-::--save-dir <save-dir>                    ÉèÖÃÊä³öÄ¿Â¼
-::--download-retry-count <number>          Ã¿¸ö·ÖÆ¬ÏÂÔØÒì³£Ê±µÄÖØÊÔ´ÎÊı [default: 3]
-::--auto-select                            ×Ô¶¯Ñ¡ÔñËùÓĞÀàĞÍµÄ×î¼Ñ¹ìµÀ [default: False]
-::--ad-keyword                             Ñ¡Ïî¹ıÂË¹ã¸æURL
-::--check-segments-count                   ¼ì²âÊµ¼ÊÏÂÔØµÄ·ÖÆ¬ÊıÁ¿ºÍÔ¤ÆÚÊıÁ¿ÊÇ·ñÆ¥Åä [default: True]
-::--no-log                                 ¹Ø±ÕÈÕÖ¾ÎÄ¼şÊä³ö [default: False]
-::--append-url-params                      ½«ÊäÈëUrlµÄParamsÌí¼ÓÖÁ·ÖÆ¬, ¶ÔÄ³Ğ©ÍøÕ¾ºÜÓĞÓÃ [default: False]
-::-mt, --concurrent-download               ²¢·¢ÏÂÔØÒÑÑ¡ÔñµÄÒôÆµ¡¢ÊÓÆµºÍ×ÖÄ» [default: False]
-::--mp4-real-time-decryption               ÊµÊ±½âÃÜMP4·ÖÆ¬ [default: False]
-::-M, --mux-after-done <OPTIONS>           ËùÓĞ¹¤×÷Íê³ÉÊ±³¢ÊÔ»ìÁ÷·ÖÀëµÄÒôÊÓÆµ
-::--custom-range <RANGE>                   ½öÏÂÔØ²¿·Ö·ÖÆ¬. ÊäÈë "--morehelp custom-range" ÒÔ²é¿´ÏêÏ¸ĞÅÏ¢
-::--ffmpeg-binary-path <PATH>              ffmpeg¿ÉÖ´ĞĞ³ÌĞòÈ«Â·¾¶, ÀıÈç C:\Tools\ffmpeg.exe
-::--ui-language <en-US|zh-CN|zh-TW>        ÉèÖÃUIÓïÑÔ
-::--live-keep-segments                     Â¼ÖÆÖ±²¥²¢¿ªÆôÊµÊ±ºÏ²¢Ê±ÒÀÈ»±£Áô·ÖÆ¬ [default: True]
-::--live-pipe-mux                          Â¼ÖÆÖ±²¥²¢¿ªÆôÊµÊ±ºÏ²¢Ê±Í¨¹ı¹ÜµÀ+ffmpegÊµÊ±»ìÁ÷µ½TSÎÄ¼ş [default: False]
-::--live-fix-vtt-by-audio                  Í¨¹ı¶ÁÈ¡ÒôÆµÎÄ¼şµÄÆğÊ¼Ê±¼äĞŞÕıVTT×ÖÄ» [default: False]
-::--live-record-limit <HH:mm:ss>           Â¼ÖÆÖ±²¥Ê±µÄÂ¼ÖÆÊ±³¤ÏŞÖÆ
-::-sv, --select-video <OPTIONS>            Í¨¹ıÕıÔò±í´ïÊ½Ñ¡Ôñ·ûºÏÒªÇóµÄÊÓÆµÁ÷. ÊäÈë "--morehelp select-video" ÒÔ²é¿´ÏêÏ¸ĞÅÏ¢
-::-sa, --select-audio <OPTIONS>            Í¨¹ıÕıÔò±í´ïÊ½Ñ¡Ôñ·ûºÏÒªÇóµÄÒôÆµÁ÷. ÊäÈë "--morehelp select-audio" ÒÔ²é¿´ÏêÏ¸ĞÅÏ¢
-::-ss, --select-subtitle <OPTIONS>         Í¨¹ıÕıÔò±í´ïÊ½Ñ¡Ôñ·ûºÏÒªÇóµÄ×ÖÄ»Á÷. ÊäÈë "--morehelp select-subtitle" ÒÔ²é¿´ÏêÏ¸ĞÅÏ¢
-::-dv, --drop-video <OPTIONS>              Í¨¹ıÕıÔò±í´ïÊ½È¥³ı·ûºÏÒªÇóµÄÊÓÆµÁ÷.
-::-da, --drop-audio <OPTIONS>              Í¨¹ıÕıÔò±í´ïÊ½È¥³ı·ûºÏÒªÇóµÄÒôÆµÁ÷.
-::-ds, --drop-subtitle <OPTIONS>           Í¨¹ıÕıÔò±í´ïÊ½È¥³ı·ûºÏÒªÇóµÄ×ÖÄ»Á÷.
+::---------------å‚æ•°è¯´æ˜---------------
+::--æ›´å¤šè¯·å‚è€ƒä½œè€…çš„é¡¹ç›® https://github.com/nilaoda/N_m3u8DL-RE
+::--tmp-dir <tmp-dir>                      è®¾ç½®ä¸´æ—¶æ–‡ä»¶å­˜å‚¨ç›®å½•
+::--save-name <save-name>                  è®¾ç½®ä¿å­˜æ–‡ä»¶å
+::--save-dir <save-dir>                    è®¾ç½®è¾“å‡ºç›®å½•
+::--download-retry-count <number>          æ¯ä¸ªåˆ†ç‰‡ä¸‹è½½å¼‚å¸¸æ—¶çš„é‡è¯•æ¬¡æ•° [default: 3]
+::--auto-select                            è‡ªåŠ¨é€‰æ‹©æ‰€æœ‰ç±»å‹çš„æœ€ä½³è½¨é“ [default: False]
+::--ad-keyword                             é€‰é¡¹è¿‡æ»¤å¹¿å‘ŠURL
+::--check-segments-count                   æ£€æµ‹å®é™…ä¸‹è½½çš„åˆ†ç‰‡æ•°é‡å’Œé¢„æœŸæ•°é‡æ˜¯å¦åŒ¹é… [default: True]
+::--no-log                                 å…³é—­æ—¥å¿—æ–‡ä»¶è¾“å‡º [default: False]
+::--append-url-params                      å°†è¾“å…¥Urlçš„Paramsæ·»åŠ è‡³åˆ†ç‰‡, å¯¹æŸäº›ç½‘ç«™å¾ˆæœ‰ç”¨ [default: False]
+::-mt, --concurrent-download               å¹¶å‘ä¸‹è½½å·²é€‰æ‹©çš„éŸ³é¢‘ã€è§†é¢‘å’Œå­—å¹• [default: False]
+::--mp4-real-time-decryption               å®æ—¶è§£å¯†MP4åˆ†ç‰‡ [default: False]
+::-M, --mux-after-done <OPTIONS>           æ‰€æœ‰å·¥ä½œå®Œæˆæ—¶å°è¯•æ··æµåˆ†ç¦»çš„éŸ³è§†é¢‘
+::--custom-range <RANGE>                   ä»…ä¸‹è½½éƒ¨åˆ†åˆ†ç‰‡. è¾“å…¥ "--morehelp custom-range" ä»¥æŸ¥çœ‹è¯¦ç»†ä¿¡æ¯
+::--ffmpeg-binary-path <PATH>              ffmpegå¯æ‰§è¡Œç¨‹åºå…¨è·¯å¾„, ä¾‹å¦‚ C:\Tools\ffmpeg.exe
+::--ui-language <en-US|zh-CN|zh-TW>        è®¾ç½®UIè¯­è¨€
+::--live-keep-segments                     å½•åˆ¶ç›´æ’­å¹¶å¼€å¯å®æ—¶åˆå¹¶æ—¶ä¾ç„¶ä¿ç•™åˆ†ç‰‡ [default: True]
+::--live-pipe-mux                          å½•åˆ¶ç›´æ’­å¹¶å¼€å¯å®æ—¶åˆå¹¶æ—¶é€šè¿‡ç®¡é“+ffmpegå®æ—¶æ··æµåˆ°TSæ–‡ä»¶ [default: False]
+::--live-fix-vtt-by-audio                  é€šè¿‡è¯»å–éŸ³é¢‘æ–‡ä»¶çš„èµ·å§‹æ—¶é—´ä¿®æ­£VTTå­—å¹• [default: False]
+::--live-record-limit <HH:mm:ss>           å½•åˆ¶ç›´æ’­æ—¶çš„å½•åˆ¶æ—¶é•¿é™åˆ¶
+::-sv, --select-video <OPTIONS>            é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼é€‰æ‹©ç¬¦åˆè¦æ±‚çš„è§†é¢‘æµ. è¾“å…¥ "--morehelp select-video" ä»¥æŸ¥çœ‹è¯¦ç»†ä¿¡æ¯
+::-sa, --select-audio <OPTIONS>            é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼é€‰æ‹©ç¬¦åˆè¦æ±‚çš„éŸ³é¢‘æµ. è¾“å…¥ "--morehelp select-audio" ä»¥æŸ¥çœ‹è¯¦ç»†ä¿¡æ¯
+::-ss, --select-subtitle <OPTIONS>         é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼é€‰æ‹©ç¬¦åˆè¦æ±‚çš„å­—å¹•æµ. è¾“å…¥ "--morehelp select-subtitle" ä»¥æŸ¥çœ‹è¯¦ç»†ä¿¡æ¯
+::-dv, --drop-video <OPTIONS>              é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼å»é™¤ç¬¦åˆè¦æ±‚çš„è§†é¢‘æµ.
+::-da, --drop-audio <OPTIONS>              é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼å»é™¤ç¬¦åˆè¦æ±‚çš„éŸ³é¢‘æµ.
+::-ds, --drop-subtitle <OPTIONS>           é€šè¿‡æ­£åˆ™è¡¨è¾¾å¼å»é™¤ç¬¦åˆè¦æ±‚çš„å­—å¹•æµ.
 
-::---------------Êä³ö²¿·Ö---------------
+::---------------è¾“å‡ºéƒ¨åˆ†---------------
 :m3u8_download_print
-echo.ÏÂÔØÃüÁî£ºN_m3u8DL-RE "%link%" %m3u8_params% --ffmpeg-binary-path %ffmpeg% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
-::¿ÕÒ»ĞĞ
+echo.ä¸‹è½½å‘½ä»¤ï¼šN_m3u8DL-RE "%link%" %m3u8_params% --ffmpeg-binary-path %ffmpeg% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
+::ç©ºä¸€è¡Œ
 echo.
 goto :eof
 
 :live_record_print
-echo.ÏÂÔØÃüÁî£ºN_m3u8DL-RE "%link%" %live_record_params% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
-::¿ÕÒ»ĞĞ
+echo.ä¸‹è½½å‘½ä»¤ï¼šN_m3u8DL-RE "%link%" %live_record_params% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
+::ç©ºä¸€è¡Œ
 echo.
 goto :eof
 
 
-::ÏÂÔØÃüÁî
+::ä¸‹è½½å‘½ä»¤
 :m3u8_downloading
-::½«%filename%¼ÓÒıºÅ£¬·ÀÖ¹ÎÄ¼şÃû´øÓĞÄ³Ğ©·ûºÅµ¼ÖÂÂ·¾¶Ê¶„eÊ§°Ü
+::å°†%filename%åŠ å¼•å·ï¼Œé˜²æ­¢æ–‡ä»¶åå¸¦æœ‰æŸäº›ç¬¦å·å¯¼è‡´è·¯å¾„è¯†åˆ¥å¤±è´¥
 N_m3u8DL-RE "%link%" %m3u8_params% --ffmpeg-binary-path %ffmpeg% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
 goto :eof
 
@@ -228,9 +236,10 @@ goto :eof
 N_m3u8DL-RE "%link%" %live_record_params% --tmp-dir %TempDir% --save-dir %SaveDir% --save-name "%filename%"
 goto :eof
 
-::ÏÂÔØÍê³ÉÔİÍ£Ò»¶ÎÊ±¼ä¹Ø±Õ´°¿Ú£¬·ÀÖ¹ÔËĞĞ±¨´íÊ±Ö±½Ó¹Ø±Õ´°¿Ú¡£
+::ä¸‹è½½å®Œæˆæš‚åœä¸€æ®µæ—¶é—´å…³é—­çª—å£ï¼Œé˜²æ­¢è¿è¡ŒæŠ¥é”™æ—¶ç›´æ¥å…³é—­çª—å£ã€‚
 :when_done
-timeout /t 5 /nobreak
+
+timeout /t 100 /nobreak
 exit
 goto :eof
 
