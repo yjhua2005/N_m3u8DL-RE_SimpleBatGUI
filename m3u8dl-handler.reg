@@ -5,9 +5,9 @@ Windows Registry Editor Version 5.00
 @="m3u8dl"
 
 [HKEY_CLASSES_ROOT\m3u8dl\DefaultIcon]
-@="G:\\LocalA\\电视\\N_m3u8DL\\N_m3u8DL-RE_Beta_win_x64\\m3u8dlre.exe,1"
+@="G:\\LocalA\\鐢佃\\N_m3u8DL\\N_m3u8DL-RE_Beta_win_x64\\m3u8dlre.exe,1"
 
 [HKEY_CLASSES_ROOT\m3u8dl\shell]
 [HKEY_CLASSES_ROOT\m3u8dl\shell\open]
 [HKEY_CLASSES_ROOT\m3u8dl\shell\open\command]
-@="\"G:\\LocalA\\电视\\N_m3u8DL\\N_m3u8DL-RE_Beta_win_x64\\m3u8dl-handler.bat\" \"%1\""
+@="\"G:\\LocalA\\鐢佃\\N_m3u8DL\\N_m3u8DL-RE_Beta_win_x64\\m3u8dl-handler.bat\" \"%1\""
