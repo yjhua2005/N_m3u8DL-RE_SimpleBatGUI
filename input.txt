@@ -1,0 +1,2 @@
+17,https://XXXXXXX/index.m3u8
+14,https://XXX/video/index.m3u8
